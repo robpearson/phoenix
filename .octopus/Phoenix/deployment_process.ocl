@@ -1,0 +1,93 @@
+steps "Approval" {
+
+    actions "Approval" {
+        action_type = "Octopus.Manual"
+        environments = ["Production"]
+        properties = {
+            Octopus.Action.Manual.BlockConcurrentDeployments = "False"
+            Octopus.Action.Manual.Instructions = "asdfasdf"
+            Octopus.Action.Manual.ResponsibleTeamIds = "teams-everyone"
+        }
+
+        worker_pool_variable = ""
+    }
+}
+
+steps "Update Database" {
+
+    actions "Update Database" {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "Write-Host \"Updating database\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+
+        worker_pool_id_or_name = "Default Worker Pool"
+    }
+}
+
+steps "Deploy webapp" {
+    properties = {
+        Octopus.Action.TargetRoles = "web"
+    }
+
+
+    actions "Deploy webapp" {
+        action_type = "Octopus.AzureAppService"
+        properties = {
+            Octopus.Action.Azure.AppSettings = <<-EOT
+                [
+                  {
+                      "name": "Environment",
+                      "value": "#{Octopus.Environment.Name}",
+                      "slotSetting": false
+                   },
+                  {
+                      "name": "Version",
+                      "value": "#{Octopus.Version.Number}",
+                      "slotSetting": false
+                   },
+                ]
+            EOT
+            Octopus.Action.Azure.DeploymentType = "Container"
+            Octopus.Action.EnabledFeatures = "Octopus.Features.JsonConfigurationVariables,Octopus.Features.ConfigurationTransforms,Octopus.Features.SubstituteInFiles"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "DockerHub"
+            Octopus.Action.Package.PackageId = "RandomQuotes"
+        }
+
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "NotAcquired"
+            feed_id_or_name = "DockerHub"
+            package_id = "RandomQuotes"
+            properties = {
+                SelectionMode = "immediate"
+            }
+
+        }
+    }
+}
+
+steps "Notify team" {
+
+    actions "Notify team" {
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-41"
+            Octopus.Action.Template.Version = "1"
+            ssn_Channel = "asdf"
+            ssn_Color = "good"
+            ssn_HookUrl = "adf"
+            ssn_IconUrl = "https://octopus.com/content/resources/favicon.png"
+            ssn_Message = "asdf"
+            ssn_Title = "adsf"
+            ssn_Username = "Octopus Deploy"
+        }
+
+        worker_pool_id_or_name = "Default Worker Pool"
+    }
+}
