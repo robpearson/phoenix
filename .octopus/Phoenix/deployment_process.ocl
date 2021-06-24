@@ -43,6 +43,21 @@ steps "Deploy microservice 1" {
     }
 }
 
+steps "Deploy micro service 2" {
+
+    actions "Deploy micro service 2" {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "Write-Host \"Hello micro service 2!\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+
+        worker_pool_id_or_name = "Default Worker Pool"
+    }
+}
+
 steps "Deploy webapp" {
     properties = {
         Octopus.Action.TargetRoles = "web"
@@ -101,21 +116,6 @@ steps "Notify team" {
             ssn_Message = "asdf"
             ssn_Title = "adsf"
             ssn_Username = "Octopus Deploy"
-        }
-
-        worker_pool_id_or_name = "Default Worker Pool"
-    }
-}
-
-steps "Deploy micro service 2" {
-
-    actions "Deploy micro service 2" {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Host \"Hello micro service 2!\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
         }
 
         worker_pool_id_or_name = "Default Worker Pool"
