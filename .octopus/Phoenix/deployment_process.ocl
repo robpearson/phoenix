@@ -91,3 +91,18 @@ steps "Notify team" {
         worker_pool_id_or_name = "Default Worker Pool"
     }
 }
+
+steps "Deploy microservice 1" {
+
+    actions "Deploy microservice 1" {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "Write-Host \"Hello micro service 1!\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+
+        worker_pool_id_or_name = "Default Worker Pool"
+    }
+}
