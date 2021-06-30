@@ -28,36 +28,6 @@ steps "Update Database" {
     }
 }
 
-steps "Deploy microservice 1" {
-
-    actions "Deploy microservice 1" {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Host \"Hello micro service 1!\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-        }
-
-        worker_pool_id_or_name = "Default Worker Pool"
-    }
-}
-
-steps "Deploy micro service 2" {
-
-    actions "Deploy micro service 2" {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Host \"Hello micro service 2!\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-        }
-
-        worker_pool_id_or_name = "Default Worker Pool"
-    }
-}
-
 steps "Deploy webapp" {
     properties = {
         Octopus.Action.TargetRoles = "web"
