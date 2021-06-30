@@ -13,9 +13,9 @@ steps "Approval" {
     }
 }
 
-steps "Update Database" {
+steps "Update database" {
 
-    actions "Update Database" {
+    actions "Update database" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
@@ -28,13 +28,13 @@ steps "Update Database" {
     }
 }
 
-steps "Deploy webapp" {
+steps "Deploy web app" {
     properties = {
         Octopus.Action.TargetRoles = "web"
     }
 
 
-    actions "Deploy webapp" {
+    actions "Deploy web app" {
         action_type = "Octopus.AzureAppService"
         properties = {
             Octopus.Action.Azure.AppSettings = <<-EOT
