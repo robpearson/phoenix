@@ -91,3 +91,18 @@ steps "Notify team" {
         worker_pool_id_or_name = "Default Worker Pool"
     }
 }
+
+steps "Hello world!" {
+
+    actions "Hello world!" {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = "echo \"Hello world!\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+
+        worker_pool_id_or_name = "Default Worker Pool"
+    }
+}
